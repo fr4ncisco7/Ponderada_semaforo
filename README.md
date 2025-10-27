@@ -111,4 +111,6 @@ Abaixo estão as imagens da montagem final do semáforo na protoboard, conectado
 
 O vídeo a seguir demonstra o funcionamento do ciclo do semáforo, seguindo a lógica de temporização programada (6s Vermelho, 4s Verde, 2s Amarelo).
 
-[Link para o Vídeo de Demonstração](`https://drive.google.com/drive/folders/1EM8jXSWpORsn3lkqzj7SS2wOz4eqlzig?usp=drive_link`)
+
+
+[Link para o Vídeo de Demonstração](https://drive.google.com/drive/folders/1EM8jXSWpORsn3lkqzj7SS2wOz4eqlzig?usp=drive_link)
