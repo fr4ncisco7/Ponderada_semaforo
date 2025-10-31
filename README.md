@@ -1,10 +1,15 @@
-# 🚥 Projeto Semáforo com LEDs e Arduino
+# Projeto Semáforo com LEDs e Arduino
 
-## 1. Visão Geral
+## 1. Visão Geral do Projeto (Partes 1 e 2)
 
-O objetivo deste projeto é simular o funcionamento básico de um semáforo de trânsito em escala reduzida, utilizando Diodos Emissores de Luz (LEDs) nas cores padrão (Vermelho, Amarelo e Verde) e uma placa microcontroladora Arduino.
+O objetivo central deste projeto é simular o funcionamento básico de um semáforo de trânsito em escala reduzida, utilizando Diodos Emissores de Luz (LEDs) nas cores padrão (Vermelho, Amarelo e Verde) e uma placa microcontroladora Arduino.
 
-O projeto é dividido em duas etapas principais: a montagem do circuito eletrônico (hardware) e a implementação da lógica de temporização (software).
+O projeto é dividido em **duas etapas principais** de documentação e execução:
+
+* **Parte 1 (Hardware Básico - Esta Seção):** Foco na montagem fundamental do circuito eletrônico utilizando a protoboard e na implementação da lógica de temporização (software).
+* **Parte 2 (Montagem Aprimorada):** Foco na estética e realismo, migrando a montagem para uma base física de semáforo e adaptando os componentes e a conexão (cabos Macho-Fêmea).
+
+A lógica de programação (Software) é mantida em ambas as partes, demonstrando a versatilidade do código em diferentes configurações de hardware.
 
 ## 2. Componentes e Montagem (Hardware)
 
@@ -113,4 +118,273 @@ O vídeo a seguir demonstra o funcionamento do ciclo do semáforo, seguindo a l�
 
 
 
-[Link para o Vídeo de Demonstração](https://drive.google.com/drive/folders/1EM8jXSWpORsn3lkqzj7SS2wOz4eqlzig?usp=drive_link)
+[Link para o Vídeo de Demonstração](https://drive.google.com/drive/folders/150NuMTijh4dPkZKFB9HDuYB8PkS-lBro?usp=sharing)
+
+# Projeto Semáforo com LEDs e Base (Parte 2: Montagem Aprimorada)
+
+## 1. Visão Geral (Parte 2)
+
+Esta seção documenta a **segunda fase** do projeto Semáforo com Arduino. O foco aqui é aprimorar a montagem do circuito com a inclusão de uma **base física que simula a estrutura real do semáforo** (eliminando a Protoboard) e adaptando a lista de materiais para a nova forma de conexão, utilizando predominantemente **fios jumper macho-fêmea** para interface direta com a base.
+
+A lógica de programação do ciclo de temporização permanece inalterada em relação à Parte 1.
+
+## 2. Componentes e Montagem (Hardware)
+
+### 2.1. Lista de Materiais Aprimorada
+
+Esta lista reflete as mudanças para a montagem em uma base ou estrutura de semáforo, minimizando o uso da protoboard.
+
+| Componente | Quantidade | Função | Diferença em Relação à Parte 1 |
+| :--- | :---: | :--- | :--- |
+| Placa Microcontroladora (Arduino UNO ou similar) | 1 | Controla a lógica e temporização. | Sem alteração. |
+| **Resistor de $1k\Omega$ (5% de tolerância)** | 3 | Limita a corrente e protege cada LED. | Especificação de tolerância adicionada. |
+| LED Vermelho | 1 | Sinalização de Parada. | Sem alteração. |
+| LED Amarelo | 1 | Sinalização de Atenção / Transição. | Sem alteração. |
+| LED Verde | 1 | Sinalização de Livre. | Sem alteração. |
+| **Fio Jumper Macho-Fêmea** | 6 | Conexão dos LEDs (Ânodo e Cátodo) aos pinos do Arduino. | Permite conexão direta com a base/LEDs. |
+| **Fio Jumper Macho-Macho** | 1 | Conexão do Terra (`GND`) da Protoboard ao Arduino (opcionalmente) ou em outras conexões. | Cabo para conexões gerais. |
+| **Base/Estrutura do Semáforo** | 1 | Suporte físico para os LEDs (Simulação visual). | **Nova adição.** |
+
+### 2.2. Detalhes da Resistência (Revalidação)
+
+A seleção do resistor de $\mathbf{1k\Omega}$ ($1000\Omega$) é **mantida** e **revalidada**.
+
+* O resistor de $1k\Omega$ é **seguro** e suficiente para acender os LEDs com correntes entre **$2mA$ e $3mA$** (dependendo da cor do LED), protegendo os LEDs e prolongando sua vida útil.
+* A tolerância de **5%** é o padrão para resistores comerciais e não afeta significativamente o funcionamento do circuito para este projeto.
+
+### 2.3. Esquema de Conexão (Wiring)
+
+Nesta montagem, os fios **jumper Macho-Fêmea** são cruciais para a conexão direta com a base do semáforo.
+
+| LED | Pino Digital do Arduino | Componente de Proteção | Tipo de Jumper |
+| :--- | :---: | :--- | :--- |
+| **Vermelho** | **13** | Resistor $1k\Omega$ | Macho-Fêmea (Recomendado) |
+| **Amarelo** | **12** | Resistor $1k\Omega$ | Macho-Fêmea (Recomendado) |
+| **Verde** | **11** | Resistor $1k\Omega$ | Macho-Fêmea (Recomendado) |
+| **Terra (GND Comum)** | **GND** | N/A | Macho-Fêmea (Para conectar ao cátodo comum) |
+
+> **Detalhe da Conexão:** O resistor de $1k\Omega$ deve ser ligado em série com o pino de controle de cada LED (ânodo/pino longo) antes de conectar ao respectivo pino digital (13, 12, 11) do Arduino. O cátodo (pino curto) de todos os LEDs é conectado em comum ao pino de `GND` do Arduino.
+
+## 3. Lógica e Programação (Software)
+
+### 3.1. Lógica do Ciclo
+
+A lógica do ciclo é a mesma da Parte 1:
+
+1.  **Vermelho** (Parar): **6 segundos**
+2.  **Verde** (Livre): **4 segundos**
+3.  **Amarelo** (Atenção/Transição): **2 segundos**
+4.  O ciclo se repete: Amarelo $\rightarrow$ Vermelho.
+
+### 3.2. Código Arduino (Sketch)
+
+O código se mantém inalterado, utilizando as classes `Led` e `Semaforo` para organização.
+
+```cpp
+int tempos[3] = {6000, 2000, 4000};
+int* ponteiro = tempos;
+
+
+class Led {
+  private:
+  int pin;
+
+  public:
+  Led(int porta): pin(porta) {}
+
+  void ligar(){
+    digitalWrite(pin, HIGH);
+  }
+
+  void desligar(){
+    digitalWrite(pin, LOW);
+  }
+
+  void iniciar() {
+    pinMode(pin, OUTPUT);
+    desligar();
+  }
+
+};
+
+class Semaforo {
+  private:
+  Led vermelho;
+  Led amarelo;
+  Led verde;
+
+  public:
+  Semaforo(int portaVermelha, int portaAmarela, int portaVerde): vermelho(portaVermelha), amarelo(portaAmarela), verde(portaVerde) {}
+
+  void iniciar() {
+    vermelho.iniciar();
+    amarelo.iniciar();
+    verde.iniciar();
+  }
+  
+  void comecar() {
+    vermelho.ligar();
+    delay(*ponteiro);
+    vermelho.desligar();
+
+    amarelo.ligar();
+    delay(*(ponteiro + 1));
+    amarelo.desligar();
+
+    verde.ligar();
+    delay(*(ponteiro + 2));
+    verde.desligar();
+  }
+};
+Semaforo butatan(13, 12, 11);
+
+void setup() {
+  butatan.iniciar();
+
+}
+
+void loop() {
+  butatan.comecar();
+}
+```
+
+# Projeto Semáforo com LEDs e Base (Parte 2: Montagem Aprimorada)
+
+## 1. Visão Geral (Parte 2)
+
+Esta seção documenta a **segunda fase** do projeto Semáforo com Arduino. O foco aqui é aprimorar a montagem do circuito com a inclusão de uma **base física que simula a estrutura real do semáforo** (eliminando a Protoboard) e adaptando a lista de materiais para a nova forma de conexão, utilizando predominantemente **fios jumper macho-fêmea** para interface direta com a base.
+
+A lógica de programação do ciclo de temporização permanece inalterada em relação à Parte 1.
+
+## 2. Componentes e Montagem (Hardware)
+
+### 2.1. Lista de Materiais Aprimorada
+
+Esta lista reflete as mudanças para a montagem em uma base ou estrutura de semáforo, minimizando o uso da protoboard.
+
+| Componente | Quantidade | Função | Diferença em Relação à Parte 1 |
+| :--- | :---: | :--- | :--- |
+| Placa Microcontroladora (Arduino UNO ou similar) | 1 | Controla a lógica e temporização. | Sem alteração. |
+| **Resistor de $1k\Omega$ (5% de tolerância)** | 3 | Limita a corrente e protege cada LED. | Especificação de tolerância adicionada. |
+| LED Vermelho | 1 | Sinalização de Parada. | Sem alteração. |
+| LED Amarelo | 1 | Sinalização de Atenção / Transição. | Sem alteração. |
+| LED Verde | 1 | Sinalização de Livre. | Sem alteração. |
+| **Fio Jumper Macho-Fêmea** | 6 | Conexão dos LEDs (Ânodo e Cátodo) aos pinos do Arduino. | Permite conexão direta com a base/LEDs. |
+| **Fio Jumper Macho-Macho** | 1 | Conexão do Terra (`GND`) da Protoboard ao Arduino (opcionalmente) ou em outras conexões. | Cabo para conexões gerais. |
+| **Base/Estrutura do Semáforo** | 1 | Suporte físico para os LEDs (Simulação visual). | **Nova adição.** |
+
+### 2.2. Detalhes da Resistência (Revalidação)
+
+A seleção do resistor de $\mathbf{1k\Omega}$ ($1000\Omega$) é **mantida** e **revalidada**.
+
+* O resistor de $1k\Omega$ é **seguro** e suficiente para acender os LEDs com correntes entre **$2mA$ e $3mA$** (dependendo da cor do LED), protegendo os LEDs e prolongando sua vida útil.
+* A tolerância de **5%** é o padrão para resistores comerciais e não afeta significativamente o funcionamento do circuito para este projeto.
+
+### 2.3. Esquema de Conexão (Wiring)
+
+Nesta montagem, os fios **jumper Macho-Fêmea** são cruciais para a conexão direta com a base do semáforo.
+
+| LED | Pino Digital do Arduino | Componente de Proteção | Tipo de Jumper |
+| :--- | :---: | :--- | :--- |
+| **Vermelho** | **13** | Resistor $1k\Omega$ | Macho-Fêmea (Recomendado) |
+| **Amarelo** | **12** | Resistor $1k\Omega$ | Macho-Fêmea (Recomendado) |
+| **Verde** | **11** | Resistor $1k\Omega$ | Macho-Fêmea (Recomendado) |
+| **Terra (GND Comum)** | **GND** | N/A | Macho-Fêmea (Para conectar ao cátodo comum) |
+
+> **Detalhe da Conexão:** O resistor de $1k\Omega$ deve ser ligado em série com o pino de controle de cada LED (ânodo/pino longo) antes de conectar ao respectivo pino digital (13, 12, 11) do Arduino. O cátodo (pino curto) de todos os LEDs é conectado em comum ao pino de `GND` do Arduino.
+
+## 3. Lógica e Programação (Software)
+
+### 3.1. Lógica do Ciclo
+
+A lógica do ciclo é a mesma da Parte 1:
+
+1.  **Vermelho** (Parar): **6 segundos**
+2.  **Verde** (Livre): **4 segundos**
+3.  **Amarelo** (Atenção/Transição): **2 segundos**
+4.  O ciclo se repete: Amarelo $\rightarrow$ Vermelho.
+
+### 3.2. Código Arduino (Sketch)
+
+O código se mantém inalterado, utilizando as classes `Led` e `Semaforo` para organização.
+
+```cpp
+int tempos[3] = {6000, 2000, 4000};
+int* ponteiro = tempos;
+
+
+class Led {
+  private:
+  int pin;
+
+  public:
+  Led(int porta): pin(porta) {}
+
+  void ligar(){
+    digitalWrite(pin, HIGH);
+  }
+
+  void desligar(){
+    digitalWrite(pin, LOW);
+  }
+
+  void iniciar() {
+    pinMode(pin, OUTPUT);
+    desligar();
+  }
+
+};
+
+class Semaforo {
+  private:
+  Led vermelho;
+  Led amarelo;
+  Led verde;
+
+  public:
+  Semaforo(int portaVermelha, int portaAmarela, int portaVerde): vermelho(portaVermelha), amarelo(portaAmarela), verde(portaVerde) {}
+
+  void iniciar() {
+    vermelho.iniciar();
+    amarelo.iniciar();
+    verde.iniciar();
+  }
+  
+  void comecar() {
+    vermelho.ligar();
+    delay(*ponteiro);
+    vermelho.desligar();
+
+    amarelo.ligar();
+    delay(*(ponteiro + 1));
+    amarelo.desligar();
+
+    verde.ligar();
+    delay(*(ponteiro + 2));
+    verde.desligar();
+  }
+};
+Semaforo butatan(13, 12, 11);
+
+void setup() {
+  butatan.iniciar();
+
+}
+
+void loop() {
+  butatan.comecar();
+}
+```
+### 4. Mídia do Projeto
+
+## 4.1. Circuito Físico e Base
+Abaixo está a imagem da montagem final, destacando a nova base de simulação do semáforo e o uso dos cabos Macho-Fêmea.
+
+<div>
+  <img src="./imagens/semaforoComBase.jpg" alt="Imagem do circuito fisico" style="height:50%, width:50%"/>
+</div>
+
+### 4.2. Demonstração em Vídeo 
+O vídeo a seguir demonstra o funcionamento do ciclo do semáforo na nova base, seguindo a lógica de temporização programada (6s Vermelho, 4s Verde, 2s Amarelo).
+
+[Link para o Vídeo de Demonstração com a base](https://drive.google.com/drive/folders/1FtbpSNweFd03tTDt5rQZAY-QAOpYRjXp?usp=sharing)
